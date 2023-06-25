@@ -1,9 +1,8 @@
-import { createBrowserRouter } from "react-router-dom";
-import { Home } from "../pages/home";
+import { CandyCatcher } from "./candy-catcher";
 
-export const router = createBrowserRouter([
+export const routes = [
   {
-    path: "/",
-    element: <Home />,
+    path: "/candy-catcher",
+    element: <CandyCatcher />,
   },
-]);
+];
