@@ -26,8 +26,25 @@ export const Stage = () => {
       <Sprite
         image="/assets/candy-catcher/index.png"
         scale={{ x: 0.5, y: 0.5 }}
+        rotation={30}
         anchor={0.5}
         x={150}
+        y={y}
+      />
+      <Sprite
+        image="/assets/candy-catcher/candies/1.png"
+        scale={{ x: 0.5, y: 0.5 }}
+        anchor={0.5}
+        rotation={-20}
+        x={400}
+        y={y}
+      />
+       <Sprite
+        image="/assets/candy-catcher/candies/2.png"
+        scale={{ x: 0.5, y: 0.5 }}
+        anchor={0.5}
+        rotation={70}
+        x={650}
         y={y}
       />
     </PixiStage>
