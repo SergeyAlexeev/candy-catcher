@@ -19,7 +19,7 @@ export const Stage = () => {
   }, []);
 
   return (
-    <PixiStage options={{ backgroundColor: 0xeef1f5 }}>
+    <PixiStage options={{ backgroundColor: '0xeef1f5' }} width={document.documentElement.clientWidth}>
       <Container x={400} y={330}>
         <Text text="Let's play!" anchor={{ x: 0.5, y: 0.5 }} />
       </Container>
