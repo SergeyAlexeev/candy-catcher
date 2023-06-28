@@ -1,5 +1,6 @@
-import { Container, Stage as PixiStage, Sprite, Text } from "@pixi/react";
+import { Container, Stage as PixiStage, Text } from "@pixi/react";
 import { useEffect, useState } from "react";
+import { Candy } from "../Candy";
 
 export const Stage = () => {
   const [y, setY] = useState(0);
@@ -23,30 +24,9 @@ export const Stage = () => {
       <Container x={400} y={330}>
         <Text text="Let's play!" anchor={{ x: 0.5, y: 0.5 }} />
       </Container>
-      <Sprite
-        image="/assets/candy-catcher/index.png"
-        scale={{ x: 0.5, y: 0.5 }}
-        rotation={30}
-        anchor={0.5}
-        x={150}
-        y={y}
-      />
-      <Sprite
-        image="/assets/candy-catcher/candies/1.png"
-        scale={{ x: 0.5, y: 0.5 }}
-        anchor={0.5}
-        rotation={-20}
-        x={400}
-        y={y}
-      />
-       <Sprite
-        image="/assets/candy-catcher/candies/2.png"
-        scale={{ x: 0.5, y: 0.5 }}
-        anchor={0.5}
-        rotation={70}
-        x={650}
-        y={y}
-      />
+      <Candy image="/assets/candy-catcher/index.png" x={100} />
+      <Candy image="/assets/candy-catcher/candies/1.png" x={400} />
+      <Candy image="/assets/candy-catcher/candies/2.png" x={600} />
     </PixiStage>
   );
 };
