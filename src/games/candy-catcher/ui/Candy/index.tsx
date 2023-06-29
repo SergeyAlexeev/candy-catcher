@@ -21,7 +21,7 @@ export const Candy = ({ image, x }: CandyProps) => {
   return (
     <Sprite
       image={image}
-      scale={{ x: 0.5, y: 0.5 }}
+      scale={{ x: 0.3, y: 0.3 }}
       rotation={30}
       anchor={0.5}
       x={x}
