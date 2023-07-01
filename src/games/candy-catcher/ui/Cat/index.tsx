@@ -5,14 +5,16 @@ type CatProps = {
   x: number
 }
 
+const SCALE = 0.7
+const CAT_HEIGHT = 284 * SCALE;
+
 export const Cat = ({ image, x }: CatProps) => {
   return (
     <Sprite
       image={image}
-      scale={{ x: 0.7, y: 0.7 }}
-      anchor={0.5}
+      scale={{ x: SCALE, y: SCALE }}
       x={x}
-      y={500}
+      y={window.innerHeight - CAT_HEIGHT}
     />
   )
 }
