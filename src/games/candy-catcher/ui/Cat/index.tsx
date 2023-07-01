@@ -12,7 +12,7 @@ export const Cat = ({ image, x }: CatProps) => {
       scale={{ x: 0.7, y: 0.7 }}
       anchor={0.5}
       x={x}
-      y={400}
+      y={500}
     />
   )
 }
