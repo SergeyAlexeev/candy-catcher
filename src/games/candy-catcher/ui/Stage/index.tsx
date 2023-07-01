@@ -6,7 +6,7 @@ export const Stage = () => {
   return (
     <PixiStage options={{ backgroundColor: '0xeef1f5' }} width={document.documentElement.clientWidth}>
       <Container x={400} y={330}>
-        <Text text="Let's play!" anchor={{ x: 0.5, y: 0.5 }} />
+        <Text text="Let's play it!" anchor={{ x: 0.5, y: 0.5 }} />
       </Container>
       <Candy image="/assets/candy-catcher/index.png" x={100} />
       <Candy image="/assets/candy-catcher/candies/1.png" x={400} />
