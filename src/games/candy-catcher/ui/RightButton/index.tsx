@@ -2,7 +2,8 @@ import { Sprite, useApp } from "@pixi/react";
 
 type RightButtonProps = {
   image: string;
-  onPress: () => void
+  onPointerDown: () => void;
+  onPointerUp: () => void;
 };
 
 const SCALE = 0.5;
@@ -10,7 +11,7 @@ const BUTTON_HEIGHT = 187 * SCALE;
 const BUTTON_WIDTH = 200 * SCALE;
 const SCREEN_OFFSET = 20;
 
-export const RightButton = ({ image, onPress }: RightButtonProps) => {
+export const RightButton = ({ image, onPointerDown, onPointerUp }: RightButtonProps) => {
   const app = useApp()
 
   return (
@@ -20,7 +21,8 @@ export const RightButton = ({ image, onPress }: RightButtonProps) => {
       x={app.screen.width - BUTTON_WIDTH - SCREEN_OFFSET}
       y={app.screen.height - BUTTON_HEIGHT - SCREEN_OFFSET}
       interactive
-      pointerdown={onPress}
+      pointerdown={onPointerDown}
+      pointerup={onPointerUp}
     />
   );
 };

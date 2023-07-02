@@ -1,18 +1,41 @@
 import { Stage as PixiStage } from "@pixi/react";
 import { Candy } from "../Candy";
 import { Cat } from "../Cat";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { LeftButton } from "../LeftButton";
 import { RightButton } from "../RightButton";
 
+const move = (cb: () => void) => {
+  const interval = setInterval(() => {
+    cb();
+  }, 100);
+
+  return () => {
+    clearInterval(interval);
+  };
+};
+
 export const Stage = () => {
   const [catX, setCatX] = useState(window.innerWidth / 2);
+  const stopper = useRef<() => void>()
+
   const moveLeft = useCallback(() => {
-    setCatX((prev) => prev - 10);
+    const stopMoving = move(() => {
+      setCatX((prev) => prev - 10);
+    });
+    stopper.current = stopMoving
   }, []);
+
   const moveRight = useCallback(() => {
-    setCatX((prev) => prev + 10);
+    const stopMoving = move(() => {
+      setCatX((prev) => prev + 10);
+    });
+    stopper.current = stopMoving
   }, []);
+
+  const stop = () => {
+    stopper.current?.();
+  };
 
   return (
     <PixiStage
@@ -26,11 +49,13 @@ export const Stage = () => {
       <Cat image="assets/candy-catcher/catchers/cat.png" x={catX} />
       <LeftButton
         image="assets/candy-catcher/buttons/left.png"
-        onPress={moveLeft}
+        onPointerDown={moveLeft}
+        onPointerUp={stop}
       />
       <RightButton
         image="assets/candy-catcher/buttons/right.png"
-        onPress={moveRight}
+        onPointerDown={moveRight}
+        onPointerUp={stop}
       />
     </PixiStage>
   );
