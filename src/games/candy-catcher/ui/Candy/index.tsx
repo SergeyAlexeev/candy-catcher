@@ -1,4 +1,4 @@
-import { Sprite, useTick } from "@pixi/react";
+import { Sprite, useApp, useTick } from "@pixi/react";
 import { useState } from "react";
 
 type CandyProps = {
@@ -8,12 +8,13 @@ type CandyProps = {
 
 export const Candy = ({ image, x }: CandyProps) => {
   const [y, setY] = useState(0);
+  const app = useApp()
 
   useTick(() => {
     setY((prev) => {
       const next = prev + 3
 
-      return next > 630 ? 0 : next
+      return next > app.screen.height ? 0 : next
     });
   });
 
