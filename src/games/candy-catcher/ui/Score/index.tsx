@@ -9,10 +9,10 @@ export const Score = ({ score }: ScoreProps) => {
   const app = useApp();
 
   return (
-    <Container x={app.screen.width - 110} y={30}>
+    <Container x={app.screen.width - 10} y={10}>
       <Text
         text={`Score: ${score}`}
-        anchor={{ x: 0.5, y: 0.5 }}
+        anchor={{ x: 1, y: 0 }}
         style={
           new PIXI.TextStyle({
             fontFamily: '"Source Sans Pro", Helvetica, sans-serif',
