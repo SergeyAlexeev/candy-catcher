@@ -4,6 +4,7 @@ import { Cat } from "../Cat";
 import { useCallback, useRef, useState } from "react";
 import { LeftButton } from "../LeftButton";
 import { RightButton } from "../RightButton";
+import { Score } from "../Score";
 
 const move = (cb: () => void) => {
   const interval = setInterval(() => {
@@ -43,6 +44,7 @@ export const Stage = () => {
       width={window.innerWidth}
       height={window.innerHeight}
     >
+      
       <Candy image="assets/candy-catcher/index.png" x={100} />
       <Candy image="assets/candy-catcher/candies/1.png" x={400} />
       <Candy image="assets/candy-catcher/candies/2.png" x={600} />
@@ -57,6 +59,7 @@ export const Stage = () => {
         onPointerDown={moveRight}
         onPointerUp={stop}
       />
+      <Score score={100} />
     </PixiStage>
   );
 };
