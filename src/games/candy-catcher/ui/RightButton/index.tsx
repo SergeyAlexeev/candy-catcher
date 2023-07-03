@@ -41,6 +41,7 @@ export const RightButton = ({
       interactive
       pointerdown={handlePointerDown}
       pointerup={handlePointerUp}
+      pointerout={handlePointerUp}
     />
   );
 };

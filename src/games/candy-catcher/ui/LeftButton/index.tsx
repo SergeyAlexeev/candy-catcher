@@ -39,6 +39,7 @@ export const LeftButton = ({
       interactive
       pointerdown={handlePointerDown}
       pointerup={handlePointerUp}
+      pointerout={handlePointerUp}
     />
   );
 };
