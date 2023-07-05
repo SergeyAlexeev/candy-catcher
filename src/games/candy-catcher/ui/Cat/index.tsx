@@ -15,9 +15,9 @@ export const Cat = ({ image, x }: CatProps) => {
     <Sprite
       image={image}
       scale={{ x: SCALE, y: SCALE }}
-      anchor={{ x: 0.5, y: 0 }}
+      anchor={{ x: 0.5, y: 0.5 }}
       x={x}
-      y={app.screen.height - CAT_HEIGHT}
+      y={app.screen.height - CAT_HEIGHT / 2}
     />
   )
 }
