@@ -1,12 +1,10 @@
 import { Sprite, useApp } from "@pixi/react";
+import { CAT_HEIGHT, SCALE } from "./lib";
 
 type CatProps = {
   image: string
   x: number
 }
-
-const SCALE = 0.7
-const CAT_HEIGHT = 284 * SCALE;
 
 export const Cat = ({ image, x }: CatProps) => {
   const app = useApp()

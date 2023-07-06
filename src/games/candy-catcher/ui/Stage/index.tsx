@@ -1,7 +1,8 @@
 import { Stage as PixiStage } from "@pixi/react";
-import random from 'lodash/random'
+import random from "lodash/random";
 import { Candy } from "../Candy";
 import { Cat } from "../Cat";
+import { CAT_HEIGHT } from "../Cat/lib";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LeftButton } from "../LeftButton";
 import { RightButton } from "../RightButton";
@@ -23,35 +24,45 @@ const candies = [
   "assets/candy-catcher/candies/2.png",
 ];
 
-const getCandyX = () => random(150, 700)
-const getCandy = () => candies[random(0, candies.length - 1)]
+const getCandyX = () => random(150, 700);
+const getCandy = () => candies[random(0, candies.length - 1)];
 
-export const Stage = () => {  
+export const Stage = () => {
   const [catX, setCatX] = useState(window.innerWidth / 2);
-  
-  const [candy, setCandy] = useState(getCandy())
-  const [candyX, setCandyX] = useState(getCandyX())
+  const [candy, setCandy] = useState(getCandy());
+  const [candyX, setCandyX] = useState(getCandyX());
   const [candyY, setCandyY] = useState(0);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     if (candyY === 0) {
-      setCandyX(getCandyX())
-      setCandy(getCandy())
+      setCandyX(getCandyX());
+      setCandy(getCandy());
     }
-  }, [candyY])
+  }, [candyY]);
+
+  useEffect(() => {
+    const intersectX = candyX > catX && candyX < catX + 100;
+    const intersectY = candyY > CAT_HEIGHT + 50;
+
+    if (intersectX && intersectY) {
+      setScore((prev) => prev + 1);
+      setCandyY(0);
+    }
+  }, [candyY, candyX, catX]);
 
   const stopper = useRef<() => void>();
 
   const moveLeft = useCallback(() => {
     const stopMoving = move(() => {
-      setCatX((prev) => prev - 10);
+      setCatX((prev) => prev - 20);
     });
     stopper.current = stopMoving;
   }, []);
 
   const moveRight = useCallback(() => {
     const stopMoving = move(() => {
-      setCatX((prev) => prev + 10);
+      setCatX((prev) => prev + 20);
     });
     stopper.current = stopMoving;
   }, []);
@@ -59,7 +70,6 @@ export const Stage = () => {
   const stop = () => {
     stopper.current?.();
   };
-
 
   return (
     <PixiStage
@@ -79,7 +89,7 @@ export const Stage = () => {
         onPointerDown={moveRight}
         onPointerUp={stop}
       />
-      <Score score={100} />
+      <Score score={score} />
     </PixiStage>
   );
 };
