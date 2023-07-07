@@ -30,6 +30,7 @@ const getCandy = () => candies[random(0, candies.length - 1)];
 export const Stage = () => {
   const [catX, setCatX] = useState(window.innerWidth / 2);
   const [candy, setCandy] = useState(getCandy());
+  const [candyKey, setCandyKey] = useState(new Date().getTime());
   const [candyX, setCandyX] = useState(getCandyX());
   const [candyY, setCandyY] = useState(0);
   const [score, setScore] = useState(0);
@@ -47,7 +48,9 @@ export const Stage = () => {
 
     if (intersectX && intersectY) {
       setScore((prev) => prev + 1);
-      setCandyY(0);
+      setCandyKey(new Date().getTime());
+      setCandyX(getCandyX());
+      setCandy(getCandy());
     }
   }, [candyY, candyX, catX]);
 
@@ -77,7 +80,7 @@ export const Stage = () => {
       width={window.innerWidth}
       height={window.innerHeight}
     >
-      <Candy image={candy} x={candyX} onYChange={setCandyY} />
+      <Candy image={candy} x={candyX} onYChange={setCandyY} key={candyKey} />
       <Cat image="assets/candy-catcher/catchers/cat.png" x={catX} />
       <LeftButton
         image="assets/candy-catcher/buttons/left.png"
