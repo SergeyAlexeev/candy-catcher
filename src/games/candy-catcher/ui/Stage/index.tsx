@@ -8,6 +8,11 @@ import { LeftButton } from "../LeftButton";
 import { RightButton } from "../RightButton";
 import { Score } from "../Score";
 
+type CandyItem = {
+  src: string;
+  rotation: number;
+};
+
 const move = (cb: () => void) => {
   const interval = setInterval(() => {
     cb();
@@ -18,10 +23,14 @@ const move = (cb: () => void) => {
   };
 };
 
-const candies = [
-  "assets/candy-catcher/index.png",
-  "assets/candy-catcher/candies/1.png",
-  "assets/candy-catcher/candies/2.png",
+const candies: CandyItem[] = [
+  {
+    src: "assets/candy-catcher/index.png",
+    rotation: 30,
+  },
+  { src: "assets/candy-catcher/candies/1.png", rotation: 10 },
+  { src: "assets/candy-catcher/candies/2.png", rotation: 70 },
+  { src: "assets/candy-catcher/candies/3.png", rotation: 0 },
 ];
 
 const getCandyX = () => random(150, 700);
@@ -80,7 +89,13 @@ export const Stage = () => {
       width={window.innerWidth}
       height={window.innerHeight}
     >
-      <Candy image={candy} x={candyX} onYChange={setCandyY} key={candyKey} />
+      <Candy
+        image={candy.src}
+        x={candyX}
+        onYChange={setCandyY}
+        key={candyKey}
+        rotation={candy.rotation}
+      />
       <Cat image="assets/candy-catcher/catchers/cat.png" x={catX} />
       <LeftButton
         image="assets/candy-catcher/buttons/left.png"

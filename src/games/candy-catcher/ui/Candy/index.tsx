@@ -4,10 +4,11 @@ import { useState } from "react";
 type CandyProps = {
   image: string;
   x: number;
+  rotation: number;
   onYChange?: (y: number) => void;
 };
 
-export const Candy = ({ image, x, onYChange }: CandyProps) => {
+export const Candy = ({ image, x, onYChange, rotation }: CandyProps) => {
   const [y, setY] = useState(0);
   const app = useApp();
 
@@ -16,7 +17,7 @@ export const Candy = ({ image, x, onYChange }: CandyProps) => {
       const calculatedNext = prev + 3;
       const next = calculatedNext > app.screen.height ? 0 : calculatedNext;
 
-      onYChange?.(next)
+      onYChange?.(next);
       return next;
     });
   });
@@ -25,7 +26,7 @@ export const Candy = ({ image, x, onYChange }: CandyProps) => {
     <Sprite
       image={image}
       scale={{ x: 0.2, y: 0.2 }}
-      rotation={30}
+      rotation={rotation}
       anchor={0.5}
       x={x}
       y={y}
