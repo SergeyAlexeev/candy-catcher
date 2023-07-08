@@ -1,25 +1,17 @@
 import { Sprite, useApp, useTick } from "@pixi/react";
-import { useState } from "react";
+import { useCandyStore } from "../../stores/candy";
 
 type CandyProps = {
   image: string;
-  x: number;
   rotation: number;
-  onYChange?: (y: number) => void;
 };
 
-export const Candy = ({ image, x, onYChange, rotation }: CandyProps) => {
-  const [y, setY] = useState(0);
+export const Candy = ({ image, rotation }: CandyProps) => {
   const app = useApp();
+  const { x, y, setY } = useCandyStore();
 
   useTick(() => {
-    setY((prev) => {
-      const calculatedNext = prev + 3;
-      const next = calculatedNext > app.screen.height ? 0 : calculatedNext;
-
-      onYChange?.(next);
-      return next;
-    });
+    setY(app.screen.height);
   });
 
   return (

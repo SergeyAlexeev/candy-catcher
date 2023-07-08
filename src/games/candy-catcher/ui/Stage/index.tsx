@@ -1,5 +1,4 @@
 import { Stage as PixiStage } from "@pixi/react";
-import random from "lodash/random";
 import { Candy } from "../Candy";
 import { Cat } from "../Cat";
 import { CAT_HEIGHT } from "../Cat/lib";
@@ -7,11 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { LeftButton } from "../LeftButton";
 import { RightButton } from "../RightButton";
 import { Score } from "../Score";
-
-type CandyItem = {
-  src: string;
-  rotation: number;
-};
+import { useCandyStore } from "../../stores/candy";
 
 const move = (cb: () => void) => {
   const interval = setInterval(() => {
@@ -23,35 +18,18 @@ const move = (cb: () => void) => {
   };
 };
 
-const candies: CandyItem[] = [
-  {
-    src: "assets/candy-catcher/index.png",
-    rotation: 30,
-  },
-  { src: "assets/candy-catcher/candies/1.png", rotation: 10 },
-  { src: "assets/candy-catcher/candies/2.png", rotation: 70 },
-  { src: "assets/candy-catcher/candies/3.png", rotation: 0 },
-  { src: "assets/candy-catcher/candies/4.png", rotation: 90 },
-  { src: "assets/candy-catcher/candies/5.png", rotation: 120 },
-];
-
-const getCandyX = () => random(150, 700);
-const getCandy = () => candies[random(0, candies.length - 1)];
-
 export const Stage = () => {
   const [catX, setCatX] = useState(window.innerWidth / 2);
-  const [candy, setCandy] = useState(getCandy());
-  const [candyKey, setCandyKey] = useState(new Date().getTime());
-  const [candyX, setCandyX] = useState(getCandyX());
-  const [candyY, setCandyY] = useState(0);
+
+  const { x: candyX, y: candyY, candy, runNewCandy } = useCandyStore();
+
   const [score, setScore] = useState(0);
 
   useEffect(() => {
     if (candyY === 0) {
-      setCandyX(getCandyX());
-      setCandy(getCandy());
+      runNewCandy();
     }
-  }, [candyY]);
+  }, [candyY, runNewCandy]);
 
   useEffect(() => {
     const intersectX = candyX > catX && candyX < catX + 100;
@@ -59,11 +37,9 @@ export const Stage = () => {
 
     if (intersectX && intersectY) {
       setScore((prev) => prev + 1);
-      setCandyKey(new Date().getTime());
-      setCandyX(getCandyX());
-      setCandy(getCandy());
+      runNewCandy();
     }
-  }, [candyY, candyX, catX]);
+  }, [candyY, candyX, catX, runNewCandy]);
 
   const stopper = useRef<() => void>();
 
@@ -91,13 +67,7 @@ export const Stage = () => {
       width={window.innerWidth}
       height={window.innerHeight}
     >
-      <Candy
-        image={candy.src}
-        x={candyX}
-        onYChange={setCandyY}
-        key={candyKey}
-        rotation={candy.rotation}
-      />
+      <Candy image={candy.src} rotation={candy.rotation} />
       <Cat image="assets/candy-catcher/catchers/cat.png" x={catX} />
       <LeftButton
         image="assets/candy-catcher/buttons/left.png"
