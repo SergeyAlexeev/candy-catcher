@@ -7,6 +7,7 @@ import { LeftButton } from "../LeftButton";
 import { RightButton } from "../RightButton";
 import { Score } from "../Score";
 import { useCandyStore } from "../../stores/candy";
+import { useScoreStore } from "../../stores/score";
 
 const move = (cb: () => void) => {
   const interval = setInterval(() => {
@@ -22,8 +23,7 @@ export const Stage = () => {
   const [catX, setCatX] = useState(window.innerWidth / 2);
 
   const { x: candyX, y: candyY, candy, runNewCandy } = useCandyStore();
-
-  const [score, setScore] = useState(0);
+  const { incrementScore } = useScoreStore();
 
   useEffect(() => {
     if (candyY === 0) {
@@ -36,10 +36,10 @@ export const Stage = () => {
     const intersectY = candyY > CAT_HEIGHT + 50;
 
     if (intersectX && intersectY) {
-      setScore((prev) => prev + 1);
+      incrementScore(1);
       runNewCandy();
     }
-  }, [candyY, candyX, catX, runNewCandy]);
+  }, [candyY, candyX, catX, runNewCandy, incrementScore]);
 
   const stopper = useRef<() => void>();
 
@@ -79,7 +79,7 @@ export const Stage = () => {
         onPointerDown={moveRight}
         onPointerUp={stop}
       />
-      <Score score={score} />
+      <Score />
     </PixiStage>
   );
 };

@@ -1,12 +1,10 @@
 import * as PIXI from "pixi.js";
 import { Container, Text, useApp } from "@pixi/react";
+import { useScoreStore } from "../../stores/score";
 
-type ScoreProps = {
-  score: number;
-};
-
-export const Score = ({ score }: ScoreProps) => {
+export const Score = () => {
   const app = useApp();
+  const { score } = useScoreStore();
 
   return (
     <Container x={app.screen.width - 10} y={10}>
