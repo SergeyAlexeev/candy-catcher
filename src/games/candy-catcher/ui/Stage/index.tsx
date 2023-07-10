@@ -8,6 +8,7 @@ import { RightButton } from "../RightButton";
 import { Score } from "../Score";
 import { useCandyStore } from "../../stores/candy";
 import { useScoreStore } from "../../stores/score";
+import { HealthScale } from "../HealthScale";
 
 const move = (cb: () => void) => {
   const interval = setInterval(() => {
@@ -80,6 +81,7 @@ export const Stage = () => {
         onPointerUp={stop}
       />
       <Score />
+      <HealthScale />
     </PixiStage>
   );
 };
