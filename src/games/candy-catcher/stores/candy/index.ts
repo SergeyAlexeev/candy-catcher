@@ -24,6 +24,8 @@ const candies: CandyItem[] = [
   { src: "assets/candy-catcher/candies/3.png", rotation: 0 },
   { src: "assets/candy-catcher/candies/4.png", rotation: -45 },
   { src: "assets/candy-catcher/candies/5.png", rotation: -40 },
+  { src: "assets/candy-catcher/trash/1.png", rotation: 20 },
+  { src: "assets/candy-catcher/trash/2.png", rotation: -45   },
 ];
 
 const getCandyX = () => random(150, 700);
