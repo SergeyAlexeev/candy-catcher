@@ -37,10 +37,10 @@ export const Stage = () => {
     const intersectY = candyY > CAT_HEIGHT + 50;
 
     if (intersectX && intersectY) {
-      incrementScore(1);
+      incrementScore(candy.payload.score);
       runNewCandy();
     }
-  }, [candyY, candyX, catX, runNewCandy, incrementScore]);
+  }, [candyY, candyX, catX, runNewCandy, incrementScore, candy.payload.score]);
 
   const stopper = useRef<() => void>();
 
