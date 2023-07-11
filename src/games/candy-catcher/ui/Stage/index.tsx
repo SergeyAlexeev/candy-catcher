@@ -1,14 +1,15 @@
 import { Stage as PixiStage } from "@pixi/react";
-import { Candy } from "../Candy";
+import { Entity } from "../Entity";
 import { Cat } from "../Cat";
 import { CAT_HEIGHT } from "../Cat/lib";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LeftButton } from "../LeftButton";
 import { RightButton } from "../RightButton";
 import { Score } from "../Score";
-import { useEntityStore } from "../../stores/candy";
+import { useEntityStore } from "../../stores/entity";
 import { useScoreStore } from "../../stores/score";
 import { HealthScale } from "../HealthScale";
+import { useHealthStore } from "../../stores/health";
 
 const move = (cb: () => void) => {
   const interval = setInterval(() => {
@@ -23,24 +24,39 @@ const move = (cb: () => void) => {
 export const Stage = () => {
   const [catX, setCatX] = useState(window.innerWidth / 2);
 
-  const { x: candyX, y: candyY, candy, runNewEntity: runNewCandy } = useEntityStore();
+  const { x: entityX, y: entityY, entity, runNewEntity } = useEntityStore();
   const { incrementScore } = useScoreStore();
+  const { changeHealth } = useHealthStore();
 
   useEffect(() => {
-    if (candyY === 0) {
-      runNewCandy();
+    if (entityY === 0) {
+      runNewEntity();
     }
-  }, [candyY, runNewCandy]);
+  }, [entityY, runNewEntity]);
 
   useEffect(() => {
-    const intersectX = candyX > catX && candyX < catX + 100;
-    const intersectY = candyY > CAT_HEIGHT + 50;
+    const intersectX = entityX > catX && entityX < catX + 100;
+    const intersectY = entityY > CAT_HEIGHT + 50;
 
     if (intersectX && intersectY) {
-      incrementScore(candy.payload.score);
-      runNewCandy();
+      if (entity.type === "candy") {
+        incrementScore(entity.payload.score);
+      }
+      if (entity.type === "trash") {
+        changeHealth(entity.payload.health);
+      }
+      runNewEntity();
     }
-  }, [candyY, candyX, catX, runNewCandy, incrementScore, candy.payload.score]);
+  }, [
+    entityY,
+    entityX,
+    catX,
+    runNewEntity,
+    incrementScore,
+    entity.payload,
+    entity.type,
+    changeHealth,
+  ]);
 
   const stopper = useRef<() => void>();
 
@@ -68,7 +84,7 @@ export const Stage = () => {
       width={window.innerWidth}
       height={window.innerHeight}
     >
-      <Candy image={candy.src} rotation={candy.rotation} />
+      <Entity image={entity.src} rotation={entity.rotation} />
       <Cat image="assets/candy-catcher/catchers/cat.png" x={catX} />
       <LeftButton
         image="assets/candy-catcher/buttons/left.png"

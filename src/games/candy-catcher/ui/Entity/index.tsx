@@ -1,12 +1,12 @@
 import { Sprite, useApp, useTick } from "@pixi/react";
-import { useEntityStore } from "../../stores/candy";
+import { useEntityStore } from "../../stores/entity";
 
-type CandyProps = {
+type EntityProps = {
   image: string;
   rotation: number;
 };
 
-export const Candy = ({ image, rotation }: CandyProps) => {
+export const Entity = ({ image, rotation }: EntityProps) => {
   const app = useApp();
   const { x, y, setY } = useEntityStore();
 

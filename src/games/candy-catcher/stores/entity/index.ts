@@ -21,7 +21,7 @@ type Entity<T extends EntityType> = {
 type EntityStore = {
   x: number;
   y: number;
-  candy: Entity<"candy">;
+  entity: Entity<"candy"> | Entity<"trash">;
   setY: (maxY: number) => void;
   runNewEntity: () => void;
 };
@@ -81,12 +81,15 @@ const trash: Entity<"trash">[] = [
 ];
 
 const getEntityX = () => random(150, 700);
-const getEntity = () => candies[random(0, candies.length - 1)];
+const getEntity = () => {
+  const entities = [...candies, ...trash]
+  return entities[random(0, entities.length - 1)]
+};
 
 export const useEntityStore = create<EntityStore>((set) => ({
   x: getEntityX(),
   y: 0,
-  candy: getEntity(),
+  entity: getEntity(),
   setY: (maxY: number) =>
     set(({ y }) => {
       const calculatedNext = y + 3;
@@ -94,5 +97,5 @@ export const useEntityStore = create<EntityStore>((set) => ({
 
       return { y: next };
     }),
-  runNewEntity: () => set(() => ({ x: getEntityX(), candy: getEntity(), y: 0 })),
+  runNewEntity: () => set(() => ({ x: getEntityX(), entity: getEntity(), y: 0 })),
 }));
