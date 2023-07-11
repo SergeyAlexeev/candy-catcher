@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { LeftButton } from "../LeftButton";
 import { RightButton } from "../RightButton";
 import { Score } from "../Score";
-import { useCandyStore } from "../../stores/candy";
+import { useEntityStore } from "../../stores/candy";
 import { useScoreStore } from "../../stores/score";
 import { HealthScale } from "../HealthScale";
 
@@ -23,7 +23,7 @@ const move = (cb: () => void) => {
 export const Stage = () => {
   const [catX, setCatX] = useState(window.innerWidth / 2);
 
-  const { x: candyX, y: candyY, candy, runNewCandy } = useCandyStore();
+  const { x: candyX, y: candyY, candy, runNewEntity: runNewCandy } = useEntityStore();
   const { incrementScore } = useScoreStore();
 
   useEffect(() => {

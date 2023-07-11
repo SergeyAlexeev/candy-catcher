@@ -1,9 +1,9 @@
 import { random } from "lodash";
 import { create } from "zustand";
 
-type Entities = "candy" | "trash";
+type EntityType = "candy" | "trash";
 
-type Payload<T extends Entities> = T extends "candy"
+type Payload<T extends EntityType> = T extends "candy"
   ? {
       score: number;
     }
@@ -11,18 +11,19 @@ type Payload<T extends Entities> = T extends "candy"
   ? { health: number }
   : null;
 
-type Entity<T extends Entities> = {
+type Entity<T extends EntityType> = {
   src: string;
   rotation: number;
+  type: T;
   payload: Payload<T>;
 };
 
-type CandyStore = {
+type EntityStore = {
   x: number;
   y: number;
   candy: Entity<"candy">;
   setY: (maxY: number) => void;
-  runNewCandy: () => void;
+  runNewEntity: () => void;
 };
 
 const candies: Entity<"candy">[] = [
@@ -30,46 +31,62 @@ const candies: Entity<"candy">[] = [
     src: "assets/candy-catcher/index.png",
     rotation: 30,
     payload: { score: 1 },
+    type: "candy",
   },
   {
     src: "assets/candy-catcher/candies/1.png",
     rotation: 10,
     payload: { score: 1 },
+    type: "candy",
   },
   {
     src: "assets/candy-catcher/candies/2.png",
     rotation: 70,
     payload: { score: 1 },
+    type: "candy",
   },
   {
     src: "assets/candy-catcher/candies/3.png",
     rotation: 0,
     payload: { score: 1 },
+    type: "candy",
   },
   {
     src: "assets/candy-catcher/candies/4.png",
     rotation: -45,
     payload: { score: 1 },
+    type: "candy",
   },
   {
     src: "assets/candy-catcher/candies/5.png",
     rotation: -40,
     payload: { score: 1 },
+    type: "candy",
   },
 ];
 
 const trash: Entity<"trash">[] = [
-  { src: "assets/candy-catcher/trash/1.png", rotation: 20, payload: { health: -1 } },
-  { src: "assets/candy-catcher/trash/2.png", rotation: -45, payload: { health: -1 } },
-]
+  {
+    src: "assets/candy-catcher/trash/1.png",
+    rotation: 20,
+    payload: { health: -1 },
+    type: "trash",
+  },
+  {
+    src: "assets/candy-catcher/trash/2.png",
+    rotation: -45,
+    payload: { health: -1 },
+    type: "trash",
+  },
+];
 
-const getCandyX = () => random(150, 700);
-const getCandy = () => candies[random(0, candies.length - 1)];
+const getEntityX = () => random(150, 700);
+const getEntity = () => candies[random(0, candies.length - 1)];
 
-export const useCandyStore = create<CandyStore>((set) => ({
-  x: getCandyX(),
+export const useEntityStore = create<EntityStore>((set) => ({
+  x: getEntityX(),
   y: 0,
-  candy: getCandy(),
+  candy: getEntity(),
   setY: (maxY: number) =>
     set(({ y }) => {
       const calculatedNext = y + 3;
@@ -77,5 +94,5 @@ export const useCandyStore = create<CandyStore>((set) => ({
 
       return { y: next };
     }),
-  runNewCandy: () => set(() => ({ x: getCandyX(), candy: getCandy(), y: 0 })),
+  runNewEntity: () => set(() => ({ x: getEntityX(), candy: getEntity(), y: 0 })),
 }));

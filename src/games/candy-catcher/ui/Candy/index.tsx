@@ -1,5 +1,5 @@
 import { Sprite, useApp, useTick } from "@pixi/react";
-import { useCandyStore } from "../../stores/candy";
+import { useEntityStore } from "../../stores/candy";
 
 type CandyProps = {
   image: string;
@@ -8,7 +8,7 @@ type CandyProps = {
 
 export const Candy = ({ image, rotation }: CandyProps) => {
   const app = useApp();
-  const { x, y, setY } = useCandyStore();
+  const { x, y, setY } = useEntityStore();
 
   useTick(() => {
     setY(app.screen.height);
