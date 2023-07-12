@@ -2,7 +2,7 @@ import { Stage as PixiStage } from "@pixi/react";
 import { Entity } from "../Entity";
 import { Cat } from "../Cat";
 import { CAT_HEIGHT } from "../Cat/lib";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { LeftButton } from "../LeftButton";
 import { RightButton } from "../RightButton";
 import { Score } from "../Score";
@@ -10,19 +10,11 @@ import { useEntityStore } from "../../stores/entity";
 import { useScoreStore } from "../../stores/score";
 import { HealthScale } from "../HealthScale";
 import { useHealthStore } from "../../stores/health";
-
-const move = (cb: () => void) => {
-  const interval = setInterval(() => {
-    cb();
-  }, 100);
-
-  return () => {
-    clearInterval(interval);
-  };
-};
+import { Mover, type Direction } from "../Mover";
 
 export const Stage = () => {
   const [catX, setCatX] = useState(window.innerWidth / 2);
+  const [direction, setDirection] = useState<Direction | null>(null)
 
   const { x: entityX, y: entityY, entity, runNewEntity } = useEntityStore();
   const { incrementScore } = useScoreStore();
@@ -58,25 +50,21 @@ export const Stage = () => {
     changeHealth,
   ]);
 
-  const stopper = useRef<() => void>();
-
   const moveLeft = useCallback(() => {
-    const stopMoving = move(() => {
-      setCatX((prev) => prev - 20);
-    });
-    stopper.current = stopMoving;
+    setDirection('left')
   }, []);
 
   const moveRight = useCallback(() => {
-    const stopMoving = move(() => {
-      setCatX((prev) => prev + 20);
-    });
-    stopper.current = stopMoving;
+    setDirection('right')
   }, []);
 
   const stop = () => {
-    stopper.current?.();
+    setDirection(null)
   };
+
+   const onMove = useCallback((delta: number) => {
+    setCatX((prev) => prev + delta);
+   }, [])
 
   return (
     <PixiStage
@@ -84,6 +72,7 @@ export const Stage = () => {
       width={window.innerWidth}
       height={window.innerHeight}
     >
+      <Mover direction={direction} onMove={onMove} />
       <Entity image={entity.src} rotation={entity.rotation} />
       <Cat image="assets/candy-catcher/catchers/cat.png" x={catX} />
       <LeftButton
