@@ -10,10 +10,10 @@ type MoverProps = {
 export const Mover = ({ direction, onMove }: MoverProps) => {
   useTick(() => {
     if (direction === "left") {
-      onMove(-3);
+      onMove(-5);
     }
     if (direction === "right") {
-      onMove(3);
+      onMove(5);
     }
   });
 
