@@ -4,9 +4,11 @@ import { useEntityStore } from "../../stores/entity";
 type EntityProps = {
   image: string;
   rotation: number;
+  scaleX?: number;
+  scaleY?: number;
 };
 
-export const Entity = ({ image, rotation }: EntityProps) => {
+export const Entity = ({ image, rotation, scaleX = 0.2, scaleY = 0.2 }: EntityProps) => {
   const app = useApp();
   const { x, y, setY } = useEntityStore();
 
@@ -17,7 +19,7 @@ export const Entity = ({ image, rotation }: EntityProps) => {
   return (
     <Sprite
       image={image}
-      scale={{ x: 0.2, y: 0.2 }}
+      scale={{ x: scaleX, y: scaleY }}
       rotation={rotation}
       anchor={0.5}
       x={x}

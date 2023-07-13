@@ -14,6 +14,8 @@ type Payload<T extends EntityType> = T extends "candy"
 type Entity<T extends EntityType> = {
   src: string;
   rotation: number;
+  scaleX?: number;
+  scaleY?: number;
   type: T;
   payload: Payload<T>;
 };
@@ -48,6 +50,8 @@ const candies: Entity<"candy">[] = [
   {
     src: "assets/candy-catcher/candies/3.png",
     rotation: 0,
+    scaleX: 0.15,
+    scaleY: 0.15,
     payload: { score: 1 },
     type: "candy",
   },

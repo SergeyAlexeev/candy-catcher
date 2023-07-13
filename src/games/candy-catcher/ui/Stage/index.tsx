@@ -14,7 +14,7 @@ import { Mover, type Direction } from "../Mover";
 
 export const Stage = () => {
   const [catX, setCatX] = useState(window.innerWidth / 2);
-  const [direction, setDirection] = useState<Direction | null>(null)
+  const [direction, setDirection] = useState<Direction | null>(null);
 
   const { x: entityX, y: entityY, entity, runNewEntity } = useEntityStore();
   const { incrementScore } = useScoreStore();
@@ -51,20 +51,20 @@ export const Stage = () => {
   ]);
 
   const moveLeft = useCallback(() => {
-    setDirection('left')
+    setDirection("left");
   }, []);
 
   const moveRight = useCallback(() => {
-    setDirection('right')
+    setDirection("right");
   }, []);
 
   const stop = () => {
-    setDirection(null)
+    setDirection(null);
   };
 
-   const onMove = useCallback((delta: number) => {
+  const onMove = useCallback((delta: number) => {
     setCatX((prev) => prev + delta);
-   }, [])
+  }, []);
 
   return (
     <PixiStage
@@ -73,7 +73,12 @@ export const Stage = () => {
       height={window.innerHeight}
     >
       <Mover direction={direction} onMove={onMove} />
-      <Entity image={entity.src} rotation={entity.rotation} />
+      <Entity
+        image={entity.src}
+        rotation={entity.rotation}
+        scaleX={entity.scaleX}
+        scaleY={entity.scaleY}
+      />
       <Cat image="assets/candy-catcher/catchers/cat.png" x={catX} />
       <LeftButton
         image="assets/candy-catcher/buttons/left.png"
