@@ -1,20 +1,26 @@
-import { useTick } from "@pixi/react";
+import { useApp, useTick } from "@pixi/react";
 
 export type Direction = "left" | "right";
 
 type MoverProps = {
   direction: Direction | null;
+  x: number;
   onMove: (delta: number) => void;
 };
 
-export const Mover = ({ direction, onMove }: MoverProps) => {
+const DELTA = 5;
+
+export const Mover = ({ direction, onMove, x }: MoverProps) => {
+  const app = useApp();
+
   useTick(() => {
-    if (direction === "left") {
-      onMove(-5);
+    const nextX = direction === "left" ? x - DELTA : x + DELTA;
+
+    if (nextX < app.screen.left || nextX > app.screen.width || !direction) {
+      return;
     }
-    if (direction === "right") {
-      onMove(5);
-    }
+
+    onMove(nextX);
   });
 
   return null;

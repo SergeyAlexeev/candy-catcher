@@ -62,8 +62,8 @@ export const Stage = () => {
     setDirection(null);
   };
 
-  const onMove = useCallback((delta: number) => {
-    setCatX((prev) => prev + delta);
+  const onMove = useCallback((x: number) => {
+    setCatX(x);
   }, []);
 
   return (
@@ -72,7 +72,7 @@ export const Stage = () => {
       width={window.innerWidth}
       height={window.innerHeight}
     >
-      <Mover direction={direction} onMove={onMove} />
+      <Mover direction={direction} onMove={onMove} x={catX} />
       <Entity
         image={entity.src}
         rotation={entity.rotation}
