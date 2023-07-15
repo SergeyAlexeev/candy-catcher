@@ -1,13 +1,13 @@
 import { random } from "lodash";
 import { create } from "zustand";
 
-type EntityType = "candy" | "trash";
+type EntityType = "candy" | "trash" | "health";
 
 type Payload<T extends EntityType> = T extends "candy"
   ? {
       score: number;
     }
-  : T extends "trash"
+  : T extends "trash" | "health"
   ? { health: number }
   : null;
 
@@ -23,7 +23,7 @@ type Entity<T extends EntityType> = {
 type EntityStore = {
   x: number;
   y: number;
-  entity: Entity<"candy"> | Entity<"trash">;
+  entity: Entity<"candy"> | Entity<"trash"> | Entity<"health">;
   setY: (maxY: number) => void;
   runNewEntity: () => void;
 };
@@ -84,10 +84,19 @@ const trash: Entity<"trash">[] = [
   },
 ];
 
+const health: Entity<"health">[] = [
+  {
+    src: "assets/candy-catcher/hearts/repair_health.png",
+    rotation: 0,
+    payload: { health: 1 },
+    type: "health",
+  },
+];
+
 const getEntityX = () => random(150, 700);
 const getEntity = () => {
-  const entities = [...candies, ...trash]
-  return entities[random(0, entities.length - 1)]
+  const entities = [...candies, ...trash, ...health];
+  return entities[random(0, entities.length - 1)];
 };
 
 export const useEntityStore = create<EntityStore>((set) => ({
@@ -101,5 +110,6 @@ export const useEntityStore = create<EntityStore>((set) => ({
 
       return { y: next };
     }),
-  runNewEntity: () => set(() => ({ x: getEntityX(), entity: getEntity(), y: 0 })),
+  runNewEntity: () =>
+    set(() => ({ x: getEntityX(), entity: getEntity(), y: 0 })),
 }));

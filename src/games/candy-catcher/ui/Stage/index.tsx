@@ -34,7 +34,7 @@ export const Stage = () => {
       if (entity.type === "candy") {
         incrementScore(entity.payload.score);
       }
-      if (entity.type === "trash") {
+      if (entity.type === "trash" || entity.type === "health") {
         changeHealth(entity.payload.health);
       }
       runNewEntity();
