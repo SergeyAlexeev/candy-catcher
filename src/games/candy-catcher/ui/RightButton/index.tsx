@@ -5,6 +5,7 @@ type RightButtonProps = {
   image: string;
   onPointerDown: () => void;
   onPointerUp: () => void;
+  disabled?: boolean;
 };
 
 const SCALE = 0.5;
@@ -17,6 +18,7 @@ export const RightButton = ({
   image,
   onPointerDown,
   onPointerUp,
+  disabled,
 }: RightButtonProps) => {
   const app = useApp();
 
@@ -38,10 +40,14 @@ export const RightButton = ({
       scale={{ x: SCALE, y: SCALE }}
       x={app.screen.width - BUTTON_WIDTH - SCREEN_OFFSET}
       y={y}
-      interactive
-      pointerdown={handlePointerDown}
-      pointerup={handlePointerUp}
-      pointerout={handlePointerUp}
+      {...(!disabled
+        ? {
+            interactive: true,
+            pointerdown: handlePointerDown,
+            pointerup: handlePointerUp,
+            pointerout: handlePointerUp,
+          }
+        : null)}
     />
   );
 };

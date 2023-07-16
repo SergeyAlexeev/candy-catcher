@@ -6,17 +6,24 @@ type EntityProps = {
   rotation: number;
   scaleX?: number;
   scaleY?: number;
+  disabled?: boolean;
 };
 
-export const Entity = ({ image, rotation, scaleX = 0.2, scaleY = 0.2 }: EntityProps) => {
+export const Entity = ({
+  image,
+  rotation,
+  disabled,
+  scaleX = 0.2,
+  scaleY = 0.2,
+}: EntityProps) => {
   const app = useApp();
   const { x, y, setY } = useEntityStore();
 
   useTick(() => {
     setY(app.screen.height);
-  });
+  }, !disabled);
 
-  return (
+  return !disabled ? (
     <Sprite
       image={image}
       scale={{ x: scaleX, y: scaleY }}
@@ -25,5 +32,5 @@ export const Entity = ({ image, rotation, scaleX = 0.2, scaleY = 0.2 }: EntityPr
       x={x}
       y={y}
     />
-  );
+  ) : null;
 };

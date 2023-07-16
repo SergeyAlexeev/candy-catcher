@@ -5,6 +5,7 @@ type LeftButtonProps = {
   image: string;
   onPointerDown: () => void;
   onPointerUp: () => void;
+  disabled?: boolean;
 };
 
 const SCALE = 0.5;
@@ -16,6 +17,7 @@ export const LeftButton = ({
   image,
   onPointerDown,
   onPointerUp,
+  disabled,
 }: LeftButtonProps) => {
   const app = useApp();
   const [y, setY] = useState(app.screen.height - BUTTON_HEIGHT - SCREEN_OFFSET);
@@ -36,10 +38,14 @@ export const LeftButton = ({
       scale={{ x: SCALE, y: SCALE }}
       x={SCREEN_OFFSET}
       y={y}
-      interactive
-      pointerdown={handlePointerDown}
-      pointerup={handlePointerUp}
-      pointerout={handlePointerUp}
+      {...(!disabled
+        ? {
+            interactive: true,
+            pointerdown: handlePointerDown,
+            pointerup: handlePointerUp,
+            pointerout: handlePointerUp,
+          }
+        : null)}
     />
   );
 };

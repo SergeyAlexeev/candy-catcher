@@ -63,9 +63,16 @@ export const Stage = () => {
     setDirection(null);
   };
 
-  const onMove = useCallback((x: number) => {
-    setCatX(x);
-  }, []);
+  const onMove = useCallback(
+    (x: number) => {
+      if (health === 0) {
+        return;
+      }
+
+      setCatX(x);
+    },
+    [health]
+  );
 
   return (
     <PixiStage
@@ -79,17 +86,22 @@ export const Stage = () => {
         rotation={entity.rotation}
         scaleX={entity.scaleX}
         scaleY={entity.scaleY}
+        disabled={health === 0}
       />
-      <Cat image="assets/candy-catcher/catchers/cat.png" x={catX} />
+      {health !== 0 && (
+        <Cat image="assets/candy-catcher/catchers/cat.png" x={catX} />
+      )}
       <LeftButton
         image="assets/candy-catcher/buttons/left.png"
         onPointerDown={moveLeft}
         onPointerUp={stop}
+        disabled={health === 0}
       />
       <RightButton
         image="assets/candy-catcher/buttons/right.png"
         onPointerDown={moveRight}
         onPointerUp={stop}
+        disabled={health === 0}
       />
       <Score />
       <HealthScale />
