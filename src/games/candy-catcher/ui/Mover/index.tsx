@@ -6,11 +6,12 @@ type MoverProps = {
   direction: Direction | null;
   x: number;
   onMove: (delta: number) => void;
+  disabled?: boolean
 };
 
 const DELTA = 5;
 
-export const Mover = ({ direction, onMove, x }: MoverProps) => {
+export const Mover = ({ direction, onMove, x, disabled }: MoverProps) => {
   const app = useApp();
 
   useTick(() => {
@@ -21,7 +22,7 @@ export const Mover = ({ direction, onMove, x }: MoverProps) => {
     }
 
     onMove(nextX);
-  });
+  }, !disabled);
 
   return null;
 };

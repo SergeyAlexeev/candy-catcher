@@ -9,7 +9,7 @@ import { Score } from "../Score";
 import { useEntityStore } from "../../stores/entity";
 import { useScoreStore } from "../../stores/score";
 import { HealthScale } from "../HealthScale";
-import { useHealthStore } from "../../stores/health";
+import { useHealthStore, MAX_HEALTH } from "../../stores/health";
 import { Mover, type Direction } from "../Mover";
 import { GameOver } from "../GameOver";
 
@@ -18,7 +18,7 @@ export const Stage = () => {
   const [direction, setDirection] = useState<Direction | null>(null);
 
   const { x: entityX, y: entityY, entity, runNewEntity } = useEntityStore();
-  const { incrementScore } = useScoreStore();
+  const { incrementScore, resetScore } = useScoreStore();
   const { health, changeHealth } = useHealthStore();
 
   useEffect(() => {
@@ -74,13 +74,19 @@ export const Stage = () => {
     [health]
   );
 
+  const restart = useCallback(() => {
+    changeHealth(MAX_HEALTH);
+    setCatX(window.innerWidth / 2);
+    resetScore();
+    setDirection(null)
+  }, [changeHealth, resetScore]);
+
   return (
     <PixiStage
       options={{ backgroundColor: 0xeef1f5, resizeTo: window }}
       width={window.innerWidth}
       height={window.innerHeight}
     >
-      <Mover direction={direction} onMove={onMove} x={catX} />
       <Entity
         image={entity.src}
         rotation={entity.rotation}
@@ -89,7 +95,10 @@ export const Stage = () => {
         disabled={health === 0}
       />
       {health !== 0 && (
-        <Cat image="assets/candy-catcher/catchers/cat.png" x={catX} />
+        <>
+          <Cat image="assets/candy-catcher/catchers/cat.png" x={catX} />
+          <Mover direction={direction} onMove={onMove} x={catX} disabled={health === 0} />
+        </>
       )}
       <LeftButton
         image="assets/candy-catcher/buttons/left.png"
@@ -106,7 +115,10 @@ export const Stage = () => {
       <Score />
       <HealthScale />
       {health === 0 && (
-        <GameOver image="assets/candy-catcher/buttons/game_over.png" />
+        <GameOver
+          image="assets/candy-catcher/buttons/game_over.png"
+          onRestart={restart}
+        />
       )}
     </PixiStage>
   );
