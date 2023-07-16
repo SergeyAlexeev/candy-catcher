@@ -11,6 +11,7 @@ import { useScoreStore } from "../../stores/score";
 import { HealthScale } from "../HealthScale";
 import { useHealthStore } from "../../stores/health";
 import { Mover, type Direction } from "../Mover";
+import { GameOver } from "../GameOver";
 
 export const Stage = () => {
   const [catX, setCatX] = useState(window.innerWidth / 2);
@@ -18,7 +19,7 @@ export const Stage = () => {
 
   const { x: entityX, y: entityY, entity, runNewEntity } = useEntityStore();
   const { incrementScore } = useScoreStore();
-  const { changeHealth } = useHealthStore();
+  const { health, changeHealth } = useHealthStore();
 
   useEffect(() => {
     if (entityY === 0) {
@@ -92,6 +93,9 @@ export const Stage = () => {
       />
       <Score />
       <HealthScale />
+      {health === 0 && (
+        <GameOver image="assets/candy-catcher/buttons/game_over.png" />
+      )}
     </PixiStage>
   );
 };
