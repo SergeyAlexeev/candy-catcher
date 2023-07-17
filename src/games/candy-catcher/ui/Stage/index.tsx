@@ -17,8 +17,8 @@ export const Stage = () => {
   const [catX, setCatX] = useState(window.innerWidth / 2);
   const [direction, setDirection] = useState<Direction | null>(null);
 
-  const { x: entityX, y: entityY, entity, runNewEntity } = useEntityStore();
-  const { incrementScore, resetScore } = useScoreStore();
+  const { x: entityX, y: entityY, entity, runNewEntity, incSpeed, speed } = useEntityStore();
+  const { incrementScore, resetScore, score } = useScoreStore();
   const { health, changeHealth } = useHealthStore();
 
   useEffect(() => {
@@ -50,6 +50,12 @@ export const Stage = () => {
     entity.type,
     changeHealth,
   ]);
+
+  useEffect(() => {
+    if (score === 100) {
+      incSpeed()
+    }
+  }, [incSpeed, score])
 
   const moveLeft = useCallback(() => {
     setDirection("left");

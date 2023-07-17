@@ -23,6 +23,8 @@ type Entity<T extends EntityType> = {
 type EntityStore = {
   x: number;
   y: number;
+  speed: number;
+  incSpeed: () => void;
   entity: Entity<"candy"> | Entity<"trash"> | Entity<"health">;
   setY: (maxY: number) => void;
   runNewEntity: () => void;
@@ -103,13 +105,15 @@ export const useEntityStore = create<EntityStore>((set) => ({
   x: getEntityX(),
   y: 0,
   entity: getEntity(),
+  speed: 3,
   setY: (maxY: number) =>
-    set(({ y }) => {
-      const calculatedNext = y + 3;
+    set(({ y, speed }) => {
+      const calculatedNext = y + speed;
       const next = calculatedNext > maxY ? 0 : calculatedNext;
 
       return { y: next };
     }),
+  incSpeed: () => set(({ speed }) => ({ speed: speed + 1 })),
   runNewEntity: () =>
     set(() => ({ x: getEntityX(), entity: getEntity(), y: 0 })),
 }));
