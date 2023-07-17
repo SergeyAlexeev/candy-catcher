@@ -17,7 +17,7 @@ export const Stage = () => {
   const [catX, setCatX] = useState(window.innerWidth / 2);
   const [direction, setDirection] = useState<Direction | null>(null);
 
-  const { x: entityX, y: entityY, entity, runNewEntity, incSpeed, speed } = useEntityStore();
+  const { x: entityX, y: entityY, entity, runNewEntity, incSpeed } = useEntityStore();
   const { incrementScore, resetScore, score } = useScoreStore();
   const { health, changeHealth } = useHealthStore();
 
