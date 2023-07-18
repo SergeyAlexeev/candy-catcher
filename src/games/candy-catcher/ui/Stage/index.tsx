@@ -2,7 +2,7 @@ import { Stage as PixiStage } from "@pixi/react";
 import { Entity } from "../Entity";
 import { Cat } from "../Cat";
 import { CAT_HEIGHT } from "../Cat/lib";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect/*, useRef*/, useState } from "react";
 import { LeftButton } from "../LeftButton";
 import { RightButton } from "../RightButton";
 import { Score } from "../Score";
@@ -20,6 +20,7 @@ export const Stage = () => {
   const { x: entityX, y: entityY, entity, runNewEntity, incSpeed } = useEntityStore();
   const { incrementScore, resetScore, score } = useScoreStore();
   const { health, changeHealth } = useHealthStore();
+  // const moveRef = useRef<number>()
 
   useEffect(() => {
     if (entityY === 0) {
@@ -57,8 +58,14 @@ export const Stage = () => {
     }
   }, [incSpeed, score])
 
+  // const move = (delta: number) => {
+  //   setCatX((prev) => prev + delta)
+  // }
+
   const moveLeft = useCallback(() => {
     setDirection("left");
+    // move(-3)
+    // moveRef.current = setTimeout(moveLeft, 1)
   }, []);
 
   const moveRight = useCallback(() => {
@@ -66,6 +73,7 @@ export const Stage = () => {
   }, []);
 
   const stop = () => {
+    // clearInterval(moveRef.current)
     setDirection(null);
   };
 
