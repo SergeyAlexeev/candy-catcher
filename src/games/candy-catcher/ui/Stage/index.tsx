@@ -2,7 +2,7 @@ import { Stage as PixiStage } from "@pixi/react";
 import { Entity } from "../Entity";
 import { Cat } from "../Cat";
 import { CAT_HEIGHT } from "../Cat/lib";
-import { useCallback, useEffect/*, useRef*/, useState } from "react";
+import { useCallback, useEffect /*, useRef*/, useState } from "react";
 import { LeftButton } from "../LeftButton";
 import { RightButton } from "../RightButton";
 import { Score } from "../Score";
@@ -12,14 +12,23 @@ import { HealthScale } from "../HealthScale";
 import { useHealthStore, MAX_HEALTH } from "../../stores/health";
 import { Mover, type Direction } from "../Mover";
 import { GameOver } from "../GameOver";
+import { useSpeedStore } from "../../stores/speed";
+import { ThunderButton } from "../ThunderButton";
 
 export const Stage = () => {
   const [catX, setCatX] = useState(window.innerWidth / 2);
   const [direction, setDirection] = useState<Direction | null>(null);
 
-  const { x: entityX, y: entityY, entity, runNewEntity, incSpeed } = useEntityStore();
+  const {
+    x: entityX,
+    y: entityY,
+    entity,
+    runNewEntity,
+    incSpeed,
+  } = useEntityStore();
   const { incrementScore, resetScore, score } = useScoreStore();
   const { health, changeHealth } = useHealthStore();
+  const { speed, updateSpeed } = useSpeedStore();
   // const moveRef = useRef<number>()
 
   useEffect(() => {
@@ -54,9 +63,9 @@ export const Stage = () => {
 
   useEffect(() => {
     if (score === 100) {
-      incSpeed()
+      incSpeed();
     }
-  }, [incSpeed, score])
+  }, [incSpeed, score]);
 
   // const move = (delta: number) => {
   //   setCatX((prev) => prev + delta)
@@ -77,6 +86,10 @@ export const Stage = () => {
     setDirection(null);
   };
 
+  const increaseCatSpeed = useCallback(() => {
+    updateSpeed(10);
+  }, [updateSpeed]);
+
   const onMove = useCallback(
     (x: number) => {
       if (health === 0) {
@@ -92,8 +105,9 @@ export const Stage = () => {
     changeHealth(MAX_HEALTH);
     setCatX(window.innerWidth / 2);
     resetScore();
-    setDirection(null)
-  }, [changeHealth, resetScore]);
+    setDirection(null);
+    updateSpeed(5)
+  }, [changeHealth, resetScore, updateSpeed]);
 
   return (
     <PixiStage
@@ -111,7 +125,13 @@ export const Stage = () => {
       {health !== 0 && (
         <>
           <Cat image="assets/candy-catcher/catchers/cat.png" x={catX} />
-          <Mover direction={direction} onMove={onMove} x={catX} disabled={health === 0} />
+          <Mover
+            direction={direction}
+            onMove={onMove}
+            x={catX}
+            disabled={health === 0}
+            speed={speed}
+          />
         </>
       )}
       <LeftButton
@@ -127,6 +147,7 @@ export const Stage = () => {
         disabled={health === 0}
       />
       <Score />
+      <ThunderButton onTap={increaseCatSpeed} disabled={health === 0} />
       <HealthScale />
       {health === 0 && (
         <GameOver
