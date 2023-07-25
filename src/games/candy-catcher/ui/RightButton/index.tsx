@@ -1,5 +1,5 @@
-import { Sprite, useApp } from "@pixi/react";
-import { useState } from "react";
+import { useApp } from "@pixi/react";
+import { MoveButton } from "../MoveButton";
 
 type RightButtonProps = {
   image: string;
@@ -12,7 +12,6 @@ const SCALE = 0.5;
 const BUTTON_HEIGHT = 187 * SCALE;
 const BUTTON_WIDTH = 200 * SCALE;
 const SCREEN_OFFSET = 20;
-const PRESS_SHIFT = 5;
 
 export const RightButton = ({
   image,
@@ -22,32 +21,15 @@ export const RightButton = ({
 }: RightButtonProps) => {
   const app = useApp();
 
-  const [y, setY] = useState(app.screen.height - BUTTON_HEIGHT - SCREEN_OFFSET);
-
-  const handlePointerDown = () => {
-    setY((prev) => prev + PRESS_SHIFT);
-    onPointerDown();
-  };
-
-  const handlePointerUp = () => {
-    setY((prev) => prev - PRESS_SHIFT);
-    onPointerUp();
-  };
-
   return (
-    <Sprite
+    <MoveButton
       image={image}
-      scale={{ x: SCALE, y: SCALE }}
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
+      disabled={disabled}
+      scale={SCALE}
+      defaultY={app.screen.height - BUTTON_HEIGHT - SCREEN_OFFSET}
       x={app.screen.width - BUTTON_WIDTH - SCREEN_OFFSET}
-      y={y}
-      {...(!disabled
-        ? {
-            interactive: true,
-            pointerdown: handlePointerDown,
-            pointerup: handlePointerUp,
-            pointerout: handlePointerUp,
-          }
-        : null)}
     />
   );
 };
