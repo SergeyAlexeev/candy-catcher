@@ -32,10 +32,6 @@ export const Stage = () => {
   // const moveRef = useRef<number>()
 
   useEffect(() => {
-    screen.orientation.lock('landscape');
-  }, []);
-
-  useEffect(() => {
     if (entityY === 0) {
       runNewEntity();
     }
