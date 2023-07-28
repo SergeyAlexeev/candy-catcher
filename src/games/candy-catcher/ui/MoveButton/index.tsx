@@ -40,6 +40,7 @@ export const MoveButton = ({
       scale={{ x: scale, y: scale }}
       x={x}
       y={y}
+      anchor={{ y: 1, x: 0 }}
       {...(!disabled
         ? {
             interactive: true,

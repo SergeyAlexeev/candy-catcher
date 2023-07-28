@@ -9,7 +9,6 @@ type LeftButtonProps = {
 };
 
 const SCALE = 0.5;
-const BUTTON_HEIGHT = 217 * SCALE;
 const SCREEN_OFFSET = 20;
 
 export const LeftButton = ({
@@ -27,7 +26,7 @@ export const LeftButton = ({
       onPointerUp={onPointerUp}
       disabled={disabled}
       x={SCREEN_OFFSET}
-      defaultY={app.screen.height - BUTTON_HEIGHT - SCREEN_OFFSET}
+      defaultY={app.screen.bottom - SCREEN_OFFSET}
       scale={SCALE}
     />
   );

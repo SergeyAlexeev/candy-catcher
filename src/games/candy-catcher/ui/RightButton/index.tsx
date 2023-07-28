@@ -9,7 +9,6 @@ type RightButtonProps = {
 };
 
 const SCALE = 0.5;
-const BUTTON_HEIGHT = 187 * SCALE;
 const BUTTON_WIDTH = 200 * SCALE;
 const SCREEN_OFFSET = 20;
 
@@ -28,7 +27,7 @@ export const RightButton = ({
       onPointerUp={onPointerUp}
       disabled={disabled}
       scale={SCALE}
-      defaultY={app.screen.height - BUTTON_HEIGHT - SCREEN_OFFSET}
+      defaultY={app.screen.bottom - SCREEN_OFFSET}
       x={app.screen.width - BUTTON_WIDTH - SCREEN_OFFSET}
     />
   );
