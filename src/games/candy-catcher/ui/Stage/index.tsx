@@ -32,6 +32,10 @@ export const Stage = () => {
   // const moveRef = useRef<number>()
 
   useEffect(() => {
+    screen.orientation.lock('landscape');
+  }, []);
+
+  useEffect(() => {
     if (entityY === 0) {
       runNewEntity();
     }
@@ -106,12 +110,16 @@ export const Stage = () => {
     setCatX(window.innerWidth / 2);
     resetScore();
     setDirection(null);
-    updateSpeed(5)
+    updateSpeed(5);
   }, [changeHealth, resetScore, updateSpeed]);
 
   return (
     <PixiStage
-      options={{ backgroundColor: 0xeef1f5, resizeTo: window }}
+      options={{
+        backgroundColor: 0xeef1f5,
+        resizeTo: window,
+        resolution: window.devicePixelRatio,
+      }}
       width={window.innerWidth}
       height={window.innerHeight}
     >
